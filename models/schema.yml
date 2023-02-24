@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: customers
+    description: One record per customer
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: first_order_date
+        description: NULL when a customer has not yet placed an order.
+
+  - name: stg_customers
+    description: |
+      ### Boom!! This model cleans up customer data
+      Intergalatic planatary **markdown** awesomeness.
+      * Dunno what's going on.
+      * Not sure it really matters.
+      ```
+      IF(eda.EQTVALUE = 0,a.averageHammer,eda.EQTVALUE) as AltEQTVal
+      from cliquidator.eda_data eda
+      left join DataLakeMaster.TerritoriesWithCounties t on t.State = eda.BUYSTATE AND RIGHT(t.CountyFIPS,3) = eda.BUYFIPS
+      left join DataLakeMaster.ICaverageValues a on a.industryCode = eda.industry_code
+      ```
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: This model cleans up order data
+    columns:
+      - name: order_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
